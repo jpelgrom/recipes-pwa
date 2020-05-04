@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
+import Nav from './components/nav';
+import ListPage from './pages/list';
+import DetailsPage from './pages/details';
+import NewPage from './pages/new';
+import EditPage from './pages/edit';
 
 function App() {
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    setRecipes([
+
+    ]);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Router>
+        <Nav />
+        <div className="app-content">
+          <Route exact path="/" component={(props) => <ListPage {...props} recipes={recipes} />} />
+          <Route exact path="/new" component={NewPage} />
+          <Route exact path="/recipe/:id" component={(props) => <DetailsPage {...props} recipe={recipes.find(recipe => recipe._id === props.match.params.id)} />} />
+          <Route exact path="/recipe/:id/edit" component={(props) => <EditPage {...props} recipe={recipes.find(recipe => recipe._id === props.match.params.id)} />} />
+        </div>
+      </Router>
     </div>
   );
 }
