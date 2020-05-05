@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import Nav from './components/nav';
@@ -6,29 +6,33 @@ import ListPage from './pages/list';
 import DetailsPage from './pages/details';
 import NewPage from './pages/new';
 import EditPage from './pages/edit';
+import Database from './db';
 
-function App() {
-  const [recipes, setRecipes] = useState([]);
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.db = new Database("pre1");
+    this.state = {
+      recipes: []
+    }
+  }
 
-  useEffect(() => {
-    setRecipes([
+  render() {
+    return (
+      <div className="app">
+        <Router>
+          <Nav />
+          <div className="app-content">
+            <Route exact path="/" component={(props) => <ListPage {...props} db={this.db} />} />
+            <Route exact path="/new" component={(props) => <NewPage {...props} db={this.db} />} />
+            <Route exact path="/recipe/:id" component={(props) => <DetailsPage {...props} db={this.db} />} />
+            <Route exact path="/recipe/:id/edit" component={(props) => <EditPage {...props} db={this.db} />} />
+          </div>
+        </Router>
+      </div>
+    );
+  }
 
-    ]);
-  }, []);
-
-  return (
-    <div className="app">
-      <Router>
-        <Nav />
-        <div className="app-content">
-          <Route exact path="/" component={(props) => <ListPage {...props} recipes={recipes} />} />
-          <Route exact path="/new" component={NewPage} />
-          <Route exact path="/recipe/:id" component={(props) => <DetailsPage {...props} recipe={recipes.find(recipe => recipe._id === props.match.params.id)} />} />
-          <Route exact path="/recipe/:id/edit" component={(props) => <EditPage {...props} recipe={recipes.find(recipe => recipe._id === props.match.params.id)} />} />
-        </div>
-      </Router>
-    </div>
-  );
 }
 
 export default App;
