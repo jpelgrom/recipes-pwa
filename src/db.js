@@ -25,6 +25,12 @@ class Database {
         return res;
     }
 
+    async updateRecipe(recipe) {
+        this.requireLocalDb();
+        recipe.updatedAt = new Date().toISOString();
+        return await this.localDb.put(recipe);
+    }
+
     async getRecipes() {
         // TODO paging
 
@@ -42,6 +48,11 @@ class Database {
 
         this.requireLocalDb();
         return await this.localDb.get(id);
+    }
+
+    async deleteRecipe(recipe) {
+        this.requireLocalDb();
+        return await this.localDb.remove(recipe);
     }
 }
 

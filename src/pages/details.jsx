@@ -35,6 +35,22 @@ class DetailsPage extends React.Component {
         });
     }
 
+    async deleteRecipe() {
+        if (window.confirm("Zeker weten?")) {
+            try {
+                if (this.state.recipe == null) {
+                    this.getRecipe(); // _id + _rev required, so need object and not just id
+                }
+
+                await this.props.db.deleteRecipe(this.state.recipe);
+                this.props.history.replace("/"); // Replace to prevent user going back to page with id that no longer exists
+            } catch (err) {
+                console.error(err);
+                alert("Er ging iets mis bij het verwijderen.");
+            }
+        }
+    }
+
     render() {
         const { recipe } = this.state;
 
@@ -42,15 +58,22 @@ class DetailsPage extends React.Component {
             return (
                 <div>
                     <div className="top-action-bar">
-                        <Link to="/">&#x2039; Overzicht</Link>
+                        <div className="top-action-grow">
+                            <Link to="/">&#x2039; Overzicht</Link>
+                        </div>
+                        <div>
+                            <Link to={`/recipe/${this.props.match.params.id}/edit`} >Bewerken</Link>
+                            &nbsp;
+                            <button onClick={(e) => { e.preventDefault(); this.deleteRecipe(); }}>Verwijderen</button>
+                        </div>
                     </div>
                     <h2>{recipe.title}</h2>
                     <div>{recipe.ingredientsBody}</div>
                     <div>{recipe.instructionsBody}</div>
-                </div>
+                </div >
             )
         } else if (this.state.loading) {
-            return (<div>...</div>)
+            return (<div></div>)
         } else {
             // TODO depending on error
             return (<div>Probleem bij laden</div>)

@@ -1,3 +1,7 @@
+*, ::after, ::before {
+  box-sizing: border-box;
+}
+
 body {
   background: #f6f6f6;
   color: #6a6969;
@@ -47,9 +51,14 @@ nav h2 a:hover:after {
 
 .top-action-bar {
   padding: 10px 0;
+  display: flex;
 }
 
-.top-action-bar.pull-right {
+.top-action-grow {
+  flex-grow: 1;
+}
+
+.top-action-bar .pull-right {
   text-align: right;
 }
 
@@ -66,6 +75,16 @@ nav h2 a:hover:after {
   border: 1px solid #ebebeb;
   border-radius: 2px;
   width: 75%;
+}
+
+@media(max-width: 600px) {
+  .form-group input:not([type="checkbox"]), .form-group textarea {
+    width: 100%;
+  }
+}
+
+.form-group input[type="number"] {
+  width: auto;
 }
 
 .form-group textarea {

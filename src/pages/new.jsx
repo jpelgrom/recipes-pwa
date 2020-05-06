@@ -2,6 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 class NewPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.save = this.save.bind(this);
+    }
+
     async save(form) {
         let recipe = {
             "title": form.title.value.trim(),
@@ -34,7 +40,9 @@ class NewPage extends React.Component {
         return (
             <div>
                 <div className="top-action-bar">
-                    <Link to="/">&#x2039; Overzicht</Link>
+                    <div className="top-action-grow">
+                        <Link to="/">&#x2039; Overzicht</Link>
+                    </div>
                 </div>
                 <form onSubmit={(e) => { e.preventDefault(); this.save(e.target); }}>
                     <div className="form-group">
