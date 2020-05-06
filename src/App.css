@@ -11,12 +11,20 @@ nav {
   background: white;
   border-bottom: 1px solid #ebebeb;
   padding: 15px;
-  text-align: center;
 }
 
-nav h2 {
-  margin: 0;
+nav .nav-inner {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
   display: inline-block;
+  display: flex;
+  align-items: center;
+}
+
+nav .nav-inner > * {
+  display: inline-block;
+  margin: 0;
 }
 
 nav h2 a {
@@ -32,6 +40,11 @@ nav h2 a:after {
   width: 0;
   background: transparent;
   transition: width .5s ease, background-color .5s ease;
+}
+
+nav .sync-status {
+  flex-grow: 1;
+  text-align: right;
 }
 
 nav h2 a:hover:after {

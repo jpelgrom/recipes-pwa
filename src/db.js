@@ -1,14 +1,33 @@
 import PouchDB from 'pouchdb';
+import PouchDBAuthentication from 'pouchdb-authentication';
 
 class Database {
     constructor(name) {
         this.dbKey = name;
+        PouchDB.plugin(PouchDBAuthentication);
     }
 
     requireLocalDb() {
         if (this.localDb == null) {
             this.localDb = new PouchDB(`${this.dbKey}_recipes`);
         }
+    }
+
+    requireRemoteDb() {
+        if (this.remoteDb == null) {
+            this.remoteDb = new PouchDB("", { skip_setup: true });
+        }
+    }
+
+    tryToSync() {
+        this.requireLocalDb();
+        this.requireRemoteDb();
+        return this.localDb.sync(this.remoteDb, { live: true, retry: true });
+    }
+
+    async loginToRemote(username, password) {
+        this.requireRemoteDb();
+        return await this.remoteDb.logIn(username, password);
     }
 
     async addRecipe(recipe) {
