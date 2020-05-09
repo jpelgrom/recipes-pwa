@@ -15,7 +15,7 @@ class Database {
 
     requireRemoteDb() {
         if (this.remoteDb == null) {
-            this.remoteDb = new PouchDB("", { skip_setup: true });
+            this.remoteDb = new PouchDB(`${process.env.REACT_APP_COUCHDB_HOST}/${this.dbKey}_recipes`, { skip_setup: true });
         }
     }
 
