@@ -55,6 +55,20 @@ class DetailsPage extends React.Component {
         const { recipe } = this.state;
 
         if (recipe != null) {
+            let dietDescriptors = [];
+            if (recipe.meta.diet.meat) { dietDescriptors.push("Vlees"); }
+            if (recipe.meta.diet.fish) { dietDescriptors.push((dietDescriptors.length > 0 ? "v" : "V") + "is"); }
+            if (recipe.meta.diet.vegetarian) { dietDescriptors.push((dietDescriptors.length > 0 ? "v" : "V") + "egetarisch"); }
+            if (recipe.meta.diet.vegan) { dietDescriptors.push((dietDescriptors.length > 0 ? "v" : "V") + "egan"); }
+            let source = null;
+            if (recipe.meta.source) {
+                if (recipe.meta.source.startsWith("http")) {
+                    source = <><h4><a href={recipe.meta.source}>Origineel <span role="img" aria-label="Externe link">🔗</span></a></h4></>;
+                } else {
+                    source = <><h4>Origineel</h4><div>{recipe.meta.source}</div></>;
+                }
+            }
+
             return (
                 <div>
                     <div className="top-action-bar">
@@ -67,9 +81,28 @@ class DetailsPage extends React.Component {
                             <button onClick={(e) => { e.preventDefault(); this.deleteRecipe(); }}>Verwijderen</button>
                         </div>
                     </div>
-                    <h2>{recipe.title}</h2>
-                    <div>{recipe.ingredientsBody}</div>
-                    <div>{recipe.instructionsBody}</div>
+                    <div className="recipe-body">
+                        <div className="recipe-row">
+                            <div className="recipe-group-right recipe-group-title">
+                                <h2>{recipe.title}</h2>
+                                <div>{recipe.meta.serves} {recipe.meta.serves > 1 ? "personen" : "persoon"}
+                                    {recipe.meta.duration ? ` \u00b7 ${recipe.meta.duration} ${recipe.meta.duration === 1 ? "minuut" : "minuten"}` : null}
+                                    {dietDescriptors.length > 0 ? ` \u00b7 ${dietDescriptors.join(", ")}` : null}</div>
+                            </div>
+                        </div>
+                        <div className="recipe-row">
+                            <div className="recipe-group-ingredients">
+                                <h4>Ingrediënten</h4>
+                                <div className="recipe-textarea-body">{recipe.ingredientsBody}</div>
+                                {source}
+                            </div>
+                            <div className="recipe-group-right recipe-group-instructions">
+                                <h4>Bereiding</h4>
+                                <div className="recipe-textarea-body">{recipe.instructionsBody}</div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div >
             )
         } else if (this.state.loading) {

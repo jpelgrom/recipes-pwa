@@ -63,7 +63,7 @@ nav h2 a:hover:after {
 }
 
 .top-action-bar {
-  padding: 10px 0;
+  padding: 20px 0 10px 0;
   display: flex;
 }
 
@@ -76,34 +76,86 @@ nav h2 a:hover:after {
 }
 
 .form-group {
-  margin: 10px 0;
+  margin-bottom: 10px;
 }
 
 .form-group label:not(.inline-input) {
   display: block;
+  margin-bottom: 2px;
 }
 
 .form-group input:not([type="checkbox"]), .form-group textarea {
   padding: 5px;
   border: 1px solid #ebebeb;
   border-radius: 2px;
-  width: 75%;
-}
-
-@media(max-width: 600px) {
-  .form-group input:not([type="checkbox"]), .form-group textarea {
-    width: 100%;
-  }
+  width: 100%;
+  font-family: inherit;
 }
 
 .form-group input[type="number"] {
   width: auto;
 }
 
-.form-group textarea {
-  font-family: inherit;
-}
-
 .form-group .inline-input {
   margin-right: 10px;
+}
+
+.recipe-form-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333435;
+}
+
+.recipe-form-numbers {
+  display: flex;
+  flex-wrap: 0;
+}
+
+.recipe-form-numbers > * {
+  margin-right: 10px;
+}
+
+@media(max-width: 600px) {
+  .recipe-form-numbers > * {
+    width: 50%;
+    margin-right: 0;
+  }
+}
+
+.recipe-body {
+  margin: 40px 0;
+}
+
+.recipe-group-title {
+  margin-bottom: 10px;
+}
+
+.recipe-group-title h2 {
+  margin: 0;
+}
+
+.recipe-group-ingredients h4, .recipe-group-instructions h4 {
+  margin-bottom: 10px;
+}
+
+.recipe-textarea-body {
+  white-space: pre-line;
+  margin-bottom: 10px;
+}
+
+@media(min-width: 800px) {
+  .recipe-row {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .recipe-group-right {
+    width: 70%;
+    margin-left: auto;
+  }
+
+  .recipe-group-ingredients {
+    width: 30%;
+    padding-right: 10px;
+  }
 }

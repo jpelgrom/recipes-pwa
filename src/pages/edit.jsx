@@ -98,38 +98,54 @@ class EditPage extends React.Component {
                             <button onClick={(e) => { e.preventDefault(); this.deleteRecipe(); }}>Verwijderen</button>
                         </div>
                     </div>
-                    <form onSubmit={(e) => { e.preventDefault(); this.save(e.target); }}>
-                        <div className="form-group">
-                            <label>Titel</label>
-                            <input type="text" name="title" defaultValue={recipe.title} required />
+                    <form className="recipe-body" onSubmit={(e) => { e.preventDefault(); this.save(e.target); }}>
+                        <div className="recipe-row">
+                            <div className="recipe-group-right recipe-group-title">
+                                <div className="form-group">
+                                    <label>Titel</label>
+                                    <input type="text" name="title" defaultValue={recipe.title} required className="recipe-form-title" />
+                                </div>
+                                <div className="recipe-form-numbers">
+                                    <div className="form-group">
+                                        <label># personen</label>
+                                        <input type="number" name="serves" defaultValue={recipe.meta.serves} min="1" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Bereidingstijd</label>
+                                        <input type="number" name="duration" defaultValue={recipe.meta.duration} min="0" /> minuten
+                            </div>
+                                </div>
+                                <div className="form-group">
+                                    <label className="inline-input"><input type="checkbox" name="meat" defaultChecked={recipe.meta.diet.meat}></input> Vlees</label>
+                                    <label className="inline-input"><input type="checkbox" name="fish" defaultChecked={recipe.meta.diet.fish}></input> Vis</label>
+                                    <label className="inline-input"><input type="checkbox" name="vegetarian" defaultChecked={recipe.meta.diet.vegetarian}></input> Vegetarisch</label>
+                                    <label className="inline-input"><input type="checkbox" name="vegan" defaultChecked={recipe.meta.diet.vegan}></input> Vegan</label>
+                                </div>
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label>Ingrediënten</label>
-                            <textarea rows="8" name="ingredients" defaultValue={recipe.ingredientsBody} required ></textarea>
+                        <div className="recipe-row">
+                            <div className="recipe-group-ingredients">
+                                <div className="form-group">
+                                    <label>Ingrediënten</label>
+                                    <textarea rows="9" name="ingredients" defaultValue={recipe.ingredientsBody} required ></textarea>
+                                </div>
+                                <div className="form-group">
+                                    <label>Origineel</label>
+                                    <input type="text" name="source" defaultValue={recipe.meta.source} />
+                                </div>
+                            </div>
+                            <div className="recipe-group-right recipe-group-instructions">
+                                <div className="form-group">
+                                    <label>Bereiding</label>
+                                    <textarea rows="12" name="instructions" defaultValue={recipe.instructionsBody} required ></textarea>
+                                </div>
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label>Bereiding</label>
-                            <textarea rows="8" name="instructions" defaultValue={recipe.instructionsBody} required ></textarea>
+                        <div className="recipe-row">
+                            <div className="recipe-group-right">
+                                <p><button>Opslaan</button></p>
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label># personen</label>
-                            <input type="number" name="serves" defaultValue={recipe.meta.serves} required />
-                        </div>
-                        <div className="form-group">
-                            <label>Bereidingstijd</label>
-                            <input type="number" name="duration" defaultValue={recipe.meta.duration} /> minuten
-                        </div>
-                        <div className="form-group">
-                            <label className="inline-input"><input type="checkbox" name="meat" defaultChecked={recipe.meta.diet.meat}></input> Vlees</label>
-                            <label className="inline-input"><input type="checkbox" name="fish" defaultChecked={recipe.meta.diet.fish}></input> Vis</label>
-                            <label className="inline-input"><input type="checkbox" name="vegetarian" defaultChecked={recipe.meta.diet.vegetarian}></input> Vegetarisch</label>
-                            <label className="inline-input"><input type="checkbox" name="vegan" defaultChecked={recipe.meta.diet.vegan}></input> Vegan</label>
-                        </div>
-                        <div className="form-group">
-                            <label>Origineel/bron</label>
-                            <input type="text" name="source" defaultValue={recipe.meta.source} />
-                        </div>
-                        <button>Opslaan</button>
                     </form>
                 </div>
             )
