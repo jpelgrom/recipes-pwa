@@ -16,8 +16,9 @@ class App extends React.Component {
     this.state = {
       sync: {
         checked: false,
-        success: false,
-        authenticated: false
+        event: "",
+        authenticated: false,
+        reloadList: 1 // 1 initial state, 2 if logged out error, 3 if then started, 4 if then paused which means complete
       }
     }
 
@@ -25,13 +26,17 @@ class App extends React.Component {
   }
 
   startSync() {
-    console.log("starting sync");
     const syncing = this.db.tryToSync();
-    this.setState({ sync: { checked: true, success: true, authenticated: true } });
-    syncing.on("error", (err) => {
-      console.log("sync err");
-      console.error(err);
-      this.setState({ sync: { checked: true, success: false, authenticated: !(err.hasOwnProperty("status") && err.status === 401) } });
+    syncing.on("paused", (err) => {
+      this.setState({ sync: { checked: true, event: "paused", authenticated: true, reloadList: (this.state.sync.reloadList === 3 ? 4 : this.state.sync.reloadList) } });
+    }).on("active", () => {
+      this.setState({ sync: { checked: true, event: "active", authenticated: true, reloadList: (this.state.sync.reloadList === 2 ? 3 : this.state.sync.reloadList) } });
+    }).on("denied", (err) => {
+      const auth = !(err.hasOwnProperty("status") && err.status === 401);
+      this.setState({ sync: { checked: true, event: "denied", authenticated: auth, reloadList: this.state.sync.reloadList } });
+    }).on("error", (err) => {
+      const auth = !(err.hasOwnProperty("status") && err.status === 401);
+      this.setState({ sync: { checked: true, event: "error", authenticated: auth, reloadList: (auth ? this.state.sync.reloadList : 2) } });
     });
   }
 
@@ -45,11 +50,11 @@ class App extends React.Component {
         <Router>
           <Nav syncstate={this.state.sync} />
           <div className="app-content">
-            <Route exact path="/" component={(props) => <ListPage {...props} db={this.db} />} />
-            <Route exact path="/login" component={(props) => <LoginPage {...props} db={this.db} syncstate={this.state.sync} startsync={this.startSync} />} />
-            <Route exact path="/new" component={(props) => <NewPage {...props} db={this.db} />} />
-            <Route exact path="/recipe/:id" component={(props) => <DetailsPage {...props} db={this.db} />} />
-            <Route exact path="/recipe/:id/edit" component={(props) => <EditPage {...props} db={this.db} />} />
+            <Route exact path="/" render={(props) => <ListPage {...props} db={this.db} syncstate={this.state.sync} />} />
+            <Route exact path="/login" render={(props) => <LoginPage {...props} db={this.db} syncstate={this.state.sync} startsync={this.startSync} />} />
+            <Route exact path="/new" render={(props) => <NewPage {...props} db={this.db} />} />
+            <Route exact path="/recipe/:id" render={(props) => <DetailsPage {...props} db={this.db} />} />
+            <Route exact path="/recipe/:id/edit" render={(props) => <EditPage {...props} db={this.db} />} />
           </div>
         </Router>
       </div>

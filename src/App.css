@@ -10,7 +10,7 @@ body {
 nav {
   background: white;
   border-bottom: 1px solid #ebebeb;
-  padding: 15px;
+  padding: 15px 0;
 }
 
 nav .nav-inner {

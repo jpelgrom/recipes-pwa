@@ -123,7 +123,7 @@ class EditPage extends React.Component {
                             <label className="inline-input"><input type="checkbox" name="meat" defaultChecked={recipe.meta.diet.meat}></input> Vlees</label>
                             <label className="inline-input"><input type="checkbox" name="fish" defaultChecked={recipe.meta.diet.fish}></input> Vis</label>
                             <label className="inline-input"><input type="checkbox" name="vegetarian" defaultChecked={recipe.meta.diet.vegetarian}></input> Vegetarisch</label>
-                            <label className="inline-input"><input type="checkbox" name="vegan" checdefaultCheckedked={recipe.meta.diet.vegan}></input> Vegan</label>
+                            <label className="inline-input"><input type="checkbox" name="vegan" defaultChecked={recipe.meta.diet.vegan}></input> Vegan</label>
                         </div>
                         <div className="form-group">
                             <label>Origineel/bron</label>

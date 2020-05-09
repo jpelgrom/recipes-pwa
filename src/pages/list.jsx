@@ -19,6 +19,12 @@ class ListPage extends React.Component {
         this.getRecipes();
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.syncstate != null && prevProps.syncstate.reloadList < 4 && this.props.syncstate.reloadList === 4) {
+            this.getRecipes();
+        }
+    }
+
     async getRecipes() {
         const { db } = this.props;
 

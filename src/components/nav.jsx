@@ -6,7 +6,7 @@ class Nav extends React.Component {
         const { syncstate } = this.props;
         let syncStatus = null;
         if (syncstate.checked) {
-            if (syncstate.success) {
+            if (syncstate.event === "paused" || syncstate.event === "active") {
                 syncStatus = <div className="sync-status">Verbonden</div>;
             } else if (syncstate.authenticated) {
                 syncStatus = <div className="sync-status">Tijdelijk probleem</div>;
