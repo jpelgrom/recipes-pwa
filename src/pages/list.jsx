@@ -20,7 +20,7 @@ class ListPage extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.syncstate != null && prevProps.syncstate.reloadList < 4 && this.props.syncstate.reloadList === 4) {
+        if (prevProps.syncstate != null && prevProps.syncstate.event === "active" && this.props.syncstate.event === "paused" && !this.state.loading) {
             this.getRecipes();
         }
     }

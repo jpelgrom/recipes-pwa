@@ -22,7 +22,6 @@ class DetailsPage extends React.Component {
         let stateUpdate = {};
         try {
             const recipe = await db.getRecipeById(recipeId);
-            console.log("received: ", recipe);
             stateUpdate.recipe = recipe;
         } catch (err) {
             console.error(err);

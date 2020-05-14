@@ -47,6 +47,12 @@ nav .sync-status {
   text-align: right;
 }
 
+.sync-status img {
+  display: inline-block;
+  vertical-align: sub;
+  height: 1.3em;
+}
+
 nav h2 a:hover:after {
   width: 100%;
   background: #6a6969;

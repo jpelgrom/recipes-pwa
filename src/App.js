@@ -17,8 +17,7 @@ class App extends React.Component {
       sync: {
         checked: false,
         event: "",
-        authenticated: false,
-        reloadList: 1 // 1 initial state, 2 if logged out error, 3 if then started, 4 if then paused which means complete
+        authenticated: false
       }
     }
 
@@ -28,15 +27,15 @@ class App extends React.Component {
   startSync() {
     const syncing = this.db.tryToSync();
     syncing.on("paused", (err) => {
-      this.setState({ sync: { checked: true, event: "paused", authenticated: true, reloadList: (this.state.sync.reloadList === 3 ? 4 : this.state.sync.reloadList) } });
+      this.setState({ sync: { checked: true, event: "paused", authenticated: true } });
     }).on("active", () => {
-      this.setState({ sync: { checked: true, event: "active", authenticated: true, reloadList: (this.state.sync.reloadList === 2 ? 3 : this.state.sync.reloadList) } });
+      this.setState({ sync: { checked: true, event: "active", authenticated: true } });
     }).on("denied", (err) => {
       const auth = !(err.hasOwnProperty("status") && err.status === 401);
-      this.setState({ sync: { checked: true, event: "denied", authenticated: auth, reloadList: this.state.sync.reloadList } });
+      this.setState({ sync: { checked: true, event: "denied", authenticated: auth } });
     }).on("error", (err) => {
       const auth = !(err.hasOwnProperty("status") && err.status === 401);
-      this.setState({ sync: { checked: true, event: "error", authenticated: auth, reloadList: (auth ? this.state.sync.reloadList : 2) } });
+      this.setState({ sync: { checked: true, event: "error", authenticated: auth } });
     });
   }
 

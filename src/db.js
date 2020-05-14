@@ -9,7 +9,7 @@ class Database {
 
     requireLocalDb() {
         if (this.localDb == null) {
-            this.localDb = new PouchDB(`${this.dbKey}_recipes`);
+            this.localDb = new PouchDB(`local_recipes`);
         }
     }
 
